@@ -4,6 +4,15 @@ function print(text) {
 
 function isValid(name) {
   return !!name && !name.includes(' ') && name.length >= 4;
+
+  // if (name === null || name.length <= 4 || name.includes(' ')) {
+  //   return false;
+  // } else {
+
+  //   return true;
+  // }
+
+
 }
 
 function sayHello() {
