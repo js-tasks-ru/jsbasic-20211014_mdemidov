@@ -1,10 +1,10 @@
 function checkSpam(str) {
   // ваш код...
 
-  let checkString1 = '1xBet';
-  let checkString2 = 'XXX';
+  let checkString1 = '1xbet';
+  let checkString2 = 'xxx';
 
-  if (str.toLowerCase().includes(checkString1.toLowerCase()) || str.toLowerCase().includes(checkString2.toLowerCase())) {
+  if (str.toLowerCase().includes(checkString1) || str.toLowerCase().includes(checkString2)) {
     return true;
   }
 

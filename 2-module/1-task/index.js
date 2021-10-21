@@ -12,9 +12,12 @@ function sumSalary(salaries) {
   let sum = 0;
 
   for (let key in salaries) {
-    if ((typeof salaries[key]) != 'number') continue;
-    sum += salaries[key];
 
+    if ((typeof salaries[key]) != 'number' || isFinite(salaries[key]) == false) {
+      continue
+    };
+
+    sum += salaries[key];
   }
 
   return sum;
