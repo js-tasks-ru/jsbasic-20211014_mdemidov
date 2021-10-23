@@ -16,8 +16,6 @@ function sumSalary(salaries) {
 
   for (let key in salaries) {
 
-    console.log(key);
-
     if (isFinite(salaries[key]) == false) {
       continue
     };
@@ -29,4 +27,4 @@ function sumSalary(salaries) {
 }
 
 
-console.log(sumSalary(salaries));
+sumSalary(salaries);
