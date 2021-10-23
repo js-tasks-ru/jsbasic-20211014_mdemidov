@@ -1,17 +1,22 @@
+
+let salaries = {
+  John: 1000,
+  Ann: 1600,
+  Pete: 1300,
+  month: 'December',
+  currency: 'USD',
+  isPayed: false
+};
+
+
 function sumSalary(salaries) {
   // ваш код...
-  salaries = {
-    John: 1000,
-    Ann: 1600,
-    Pete: 1300,
-    month: 'December',
-    currency: 'USD',
-    isPayed: false
-  };
 
   let sum = 0;
 
   for (let key in salaries) {
+
+    console.log(key);
 
     if (isFinite(salaries[key]) == false) {
       continue
@@ -24,4 +29,4 @@ function sumSalary(salaries) {
 }
 
 
-sumSalary();
+console.log(sumSalary(salaries));

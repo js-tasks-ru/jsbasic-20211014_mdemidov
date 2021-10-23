@@ -7,9 +7,7 @@ function truncate(str, maxlength) {
 
   } else {
 
-    // newStr = str.slice(0, maxlength - 1) + ' ...';
-
-    newStr = str.substr(0, maxlength - 1) + '\u2026';
+    let newStr = str.substr(0, maxlength - 1) + '\u2026';
 
     console.log(newStr.length);
 
