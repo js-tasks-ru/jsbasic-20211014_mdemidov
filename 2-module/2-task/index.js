@@ -1,9 +1,9 @@
 function isEmpty(obj) {
   // ваш код...
   for (let key in obj) {
-    if (key in obj) return true;
+    if (key in obj) return false;
   };
-  return false;
+  return true;
 };
 
 let schedule = {};
