@@ -1,4 +1,5 @@
 function camelize(str) {
+  // Ваш код
 
   let splitStr = str.split('');
   let newArr = [];
@@ -15,7 +16,7 @@ function camelize(str) {
   return newArr;
 };
 
-console.log(camelize('background-color')) //== 'backgroundColor';
-console.log(camelize('list-style-image')) //== 'listStyleImage';
-console.log(camelize('-webkit-transition')) //== 'WebkitTransition';
+camelize('background-color') //== 'backgroundColor';
+camelize('list-style-image') //== 'listStyleImage';
+camelize('-webkit-transition') //== 'WebkitTransition';
 
