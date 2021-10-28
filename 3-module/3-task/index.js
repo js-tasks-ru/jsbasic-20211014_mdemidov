@@ -12,8 +12,8 @@ function camelize(str) {
 
   }
 
-  newArr = newArr.join('');
-  return newArr;
+  let result = newArr.join('');
+  return result;
 };
 
 camelize('background-color') //== 'backgroundColor';
