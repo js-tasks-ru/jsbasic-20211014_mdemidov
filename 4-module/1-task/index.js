@@ -13,7 +13,6 @@ function makeFriendsList(friends) {
   });
 
   return ul;
-
 }
 
 makeFriendsList(friends);
