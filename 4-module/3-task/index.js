@@ -50,11 +50,7 @@ function highlight(table) {
     console.log(tr.cells[index]);
   };
 
-
-
-
-
-}
+};
 
 
 

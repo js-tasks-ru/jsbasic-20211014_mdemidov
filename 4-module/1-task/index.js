@@ -1,5 +1,4 @@
 function makeFriendsList(friends) {
-  // ваш код...
   let ul = document.createElement('ul');
   document.body.prepend(ul);
 
@@ -13,8 +12,4 @@ function makeFriendsList(friends) {
   });
 
   return ul;
-}
-
-// makeFriendsList(friends);
-
-
+};
