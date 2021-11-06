@@ -1,5 +1,6 @@
 function hideSelf() {
   // ваш код...
+
   let button = document.querySelector('.hide-self-button');
   let body = document.querySelector('body');
 
@@ -16,4 +17,3 @@ function hideSelf() {
 
 
 };
-
