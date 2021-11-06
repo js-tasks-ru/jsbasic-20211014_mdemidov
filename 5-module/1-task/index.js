@@ -3,8 +3,6 @@ function hideSelf() {
   let button = document.querySelector('.hide-self-button');
   let body = document.querySelector('body');
 
-
-
   document.addEventListener('click', function (event) {
     let target = event.target;
     button.hidden = true;
@@ -14,6 +12,4 @@ function hideSelf() {
     console.log(target)
   });
 
-
 };
-
