@@ -69,6 +69,7 @@ function initCarousel() {
 
     }
 
+<<<<<<< HEAD
     // let coordWrapperLeft = wrapper.getBoundingClientRect().left;
     // let coordFirstSlide = firstSlide.getBoundingClientRect().left;
     // let coordLastSlide = lastSlide.getBoundingClientRect().left;
@@ -90,4 +91,6 @@ function initCarousel() {
 
   });
 
+=======
+>>>>>>> 7690912aed866ccb6d6562c2fbef9a374d48c382
 };
