@@ -6,16 +6,6 @@ function initCarousel() {
   let slidesLength = slides.length;
   let widthSlide = wrapper.offsetWidth;
   let slidesShift = widthSlide * (slidesLength - 1);
-
-
-  // let firstSlide = slides[0];
-  // let lastSlide = slides[slidesLength - 1];
-  // console.log(carousel.scrollWidth, carousel.offsetWidth, carousel.clientWidth);
-  // console.log(window.pageYOffset);
-
-
-
-
   let arrowRight = document.querySelector('.carousel__arrow_right');
   let arrowLeft = document.querySelector('.carousel__arrow_left');
 
@@ -31,23 +21,15 @@ function initCarousel() {
       shift += widthSlide;
 
       slides.forEach(() => wrapper.style.transform = `translateX(${-shift}px)`);
-      // for (let slide of slides) {
-      //   //slide.style.transform = `translateX(${- shift}px)`;
-      //   wrapper.style.transform = `translateX(${- shift}px)`;
-      // }
+
     };
-
-
 
     if (target == arrowLeft) {
 
       shift -= widthSlide;
 
       slides.forEach(() => wrapper.style.transform = `translateX(${- shift}px)`);
-      // for (let slide of slides) {
-      //   // slide.style.transform = `translateX(${- shift}px)`;
-      //   wrapper.style.transform = `translateX(${- shift}px)`;
-      // }
+
     };
 
 
@@ -69,28 +51,5 @@ function initCarousel() {
 
     }
 
-<<<<<<< HEAD
-    // let coordWrapperLeft = wrapper.getBoundingClientRect().left;
-    // let coordFirstSlide = firstSlide.getBoundingClientRect().left;
-    // let coordLastSlide = lastSlide.getBoundingClientRect().left;
-
-    // let shiftFirstSlide = coordWrapperLeft - coordFirstSlide;
-    // let shiftLastSlide = coordWrapperLeft - coordLastSlide;
-
-    // if (shiftLastSlide == 0) {
-    //   arrowRight.style.display = 'none';
-    // } else {
-    //   arrowRight.style.display = '';
-    // };
-
-    // if (shiftFirstSlide == 0) {
-    //   arrowLeft.style.display = 'none';
-    // } else {
-    //   arrowLeft.style.display = '';
-    // };
-
   });
-
-=======
->>>>>>> 7690912aed866ccb6d6562c2fbef9a374d48c382
 };
