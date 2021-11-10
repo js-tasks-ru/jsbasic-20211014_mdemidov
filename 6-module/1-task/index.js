@@ -38,10 +38,8 @@ export default class UserTable {
     return elem;
   }
 
-
-
-
-
 }
 
+  }
+}
 
