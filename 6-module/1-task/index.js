@@ -39,7 +39,3 @@ export default class UserTable {
   }
 
 }
-
-  }
-}
-

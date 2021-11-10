@@ -63,90 +63,69 @@
         }
       ];
 
-      let tbody = document.querySelector('tbody')
-      let tr = document.createElement('tr');
-      let td = document.createElement('td');
-      let tdStr = []
-
-
-      td.textContent = rows[0].name;
-      tr.append(td);
-      tbody.append(tr);
-      // td.textContent = rows[0].age;
-      // tr.append(td);
-      // tbody.append(tr);
-
-      console.log(td)
-
-      for (let i = 0; i < rows.length; i++) {
-        tdStr.push(Object.values(rows[i]))
-        console.log(tdStr[i])
-      }
-
-
       let table = new UserTable(rows);
       document.body.append(table.elem);
     </script>
 
-  <div class="example">
-    <table>
-      <thead>
-        <tr>
-          <th>Имя</th>
-          <th>Возраст</th>
-          <th>Зарплата</th>
-          <th>Город</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Ilia</td>
-          <td>25</td>
-          <td>1000</td>
-          <td>Petrozavodsk</td>
-          <td><button>X</button></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+    <div class="example">
+      <table>
+        <thead>
+          <tr>
+            <th>Имя</th>
+            <th>Возраст</th>
+            <th>Зарплата</th>
+            <th>Город</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Ilia</td>
+            <td>25</td>
+            <td>1000</td>
+            <td>Petrozavodsk</td>
+            <td><button>X</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-  <h2>Результат выполнения вашего кода:</h2>
+    <h2>Результат выполнения вашего кода:</h2>
 
-  <script type="module">
-    import UserTable from './index.js';
+    <script type="module">
+      import UserTable from './index.js';
 
-    let rows = [
-      {
-        name: 'Ilia',
-        age: 25,
-        salary: 1000,
-        city: 'Petrozavodsk'
-      },
-      {
-        name: 'Vasya',
-        age: 14,
-        salary: 1500,
-        city: 'Moscow'
-      },
-      {
-        name: 'Ivan',
-        age: 22,
-        salary: 100,
-        city: 'Bryansk'
-      },
-      {
-        name: 'Petya',
-        age: 45,
-        salary: 990,
-        city: 'Chita'
-      }
-    ];
+      let rows = [
+        {
+          name: 'Ilia',
+          age: 25,
+          salary: 1000,
+          city: 'Petrozavodsk'
+        },
+        {
+          name: 'Vasya',
+          age: 14,
+          salary: 1500,
+          city: 'Moscow'
+        },
+        {
+          name: 'Ivan',
+          age: 22,
+          salary: 100,
+          city: 'Bryansk'
+        },
+        {
+          name: 'Petya',
+          age: 45,
+          salary: 990,
+          city: 'Chita'
+        }
+      ];
 
-    let table = new UserTable(rows);
-    document.body.append(table.elem);
+      let table = new UserTable(rows);
+      document.body.append(table.elem);
 
-  </script>
+    </script>
 </body>
 
 </html>
