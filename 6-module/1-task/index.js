@@ -74,11 +74,7 @@ export default class UserTable {
     if (event.target.tagName != 'BUTTON') return;
 
     let target = event.target.closest('tr');
-    target.hidden = true;
+    target.remove();
 
   }
 }
-
-
-
-

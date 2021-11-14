@@ -24,6 +24,10 @@
     });
 
     holder.append(card.elem);
+
+    document.body.addEventListener('product-add', (event) =>
+      console.log(`Я ${event.detail} и меня добавили в корзину.`)
+    );
   </script>
 </body>
 
