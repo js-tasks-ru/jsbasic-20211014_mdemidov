@@ -22,6 +22,10 @@
     let containerElement = document.body.querySelector('.container');
 
     containerElement.append(carousel.elem);
+
+    document.body.addEventListener('product-add', (event) =>
+      console.log(`Я ${event.detail} и меня добавили в корзину.`)
+    );
   </script>
 </body>
 
