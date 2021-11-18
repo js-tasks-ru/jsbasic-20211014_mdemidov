@@ -65,36 +65,48 @@ export default class RibbonMenu {
     return this.id;
   }
 
-  scrollMenu(ribbon) {
-    ribbon = this.elem.querySelector('.ribbon__inner');
-    console.log(ribbon)
+  scrollMenu() {
+    let ribbon = this.elem.querySelector('.ribbon__inner');
     let navigationByMenu = this.render();
     let arrowLeft = navigationByMenu.arrowLeft.closest('button');
     let arrowRight = navigationByMenu.arrowRight.closest('button');
-    arrowLeft.classList.add('ribbon__arrow_visible');
+    arrowRight.classList.add('ribbon__arrow_visible');
 
-    arrowLeft.onclick = function () {
+
+    arrowRight.onclick = function () {
       ribbon.scrollBy(350, 0);
       console.log(ribbon.scrollLeft);
-      let scrollRight = ribbon.scrollWidth - ribbon.scrollLeft - ribbon.clientWidth;
 
-      if (ribbon.arrowLeft != 0) {
-        arrowRight.classList.add('ribbon__arrow_visible');
-      }
+      ribbon.onscroll = function () {
 
-      if (scrollRight == 185) {
-        arrowLeft.classList.remove('ribbon__arrow_visible');
-      }
+        if (ribbon.scrollLeft != 0) {
+          arrowLeft.classList.add('ribbon__arrow_visible');
+        }
+
+        let scrollRight = ribbon.scrollWidth - ribbon.scrollLeft - ribbon.clientWidth;
+
+        if (scrollRight == 0) {
+          arrowRight.classList.remove('ribbon__arrow_visible');
+          arrowLeft.classList.add('ribbon__arrow_visible');
+        }
+      };
 
     };
 
-    arrowRight.onclick = function () {
+    arrowLeft.onclick = function () {
       ribbon.scrollBy(-350, 0);
 
-      if (ribbon.scrollLeft == 185) {
-        arrowRight.classList.remove('ribbon__arrow_visible');
-        arrowLeft.classList.add('ribbon__arrow_visible');
+      if (ribbon.scrollLeft != 0) {
+        arrowRight.classList.add('ribbon__arrow_visible');
       }
+
+      ribbon.onscroll = function () {
+        if (ribbon.scrollLeft == 0) {
+          arrowLeft.classList.remove('ribbon__arrow_visible');
+          arrowRight.classList.add('ribbon__arrow_visible');
+        }
+
+      };
 
     };
 
