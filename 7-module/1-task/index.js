@@ -41,11 +41,6 @@ export default class RibbonMenu {
     }
 
     this.elem.append(arrowRight);
-
-    return {
-      arrowLeft,
-      arrowRight,
-    };
   }
 
   onClick = (event) => {
@@ -67,22 +62,22 @@ export default class RibbonMenu {
 
   scrollMenu() {
     let ribbon = this.elem.querySelector('.ribbon__inner');
-    let navigationByMenu = this.render();
-    let arrowLeft = navigationByMenu.arrowLeft.closest('button');
-    let arrowRight = navigationByMenu.arrowRight.closest('button');
+    let arrowLeft = this.elem.querySelector('.ribbon__arrow_left');
+    let arrowRight = this.elem.querySelector('.ribbon__arrow_right');
+
+    console.log(ribbon);
+
     arrowRight.classList.add('ribbon__arrow_visible');
 
-
-    arrowRight.onclick = function () {
+    arrowRight.onclick = () => {
       ribbon.scrollBy(350, 0);
       console.log(ribbon.scrollLeft);
 
-      ribbon.onscroll = function () {
+      ribbon.onscroll = () => {
 
         if (ribbon.scrollLeft != 0) {
           arrowLeft.classList.add('ribbon__arrow_visible');
         }
-
         let scrollRight = ribbon.scrollWidth - ribbon.scrollLeft - ribbon.clientWidth;
 
         if (scrollRight == 0) {
@@ -90,7 +85,6 @@ export default class RibbonMenu {
           arrowLeft.classList.add('ribbon__arrow_visible');
         }
       };
-
     };
 
     arrowLeft.onclick = function () {
