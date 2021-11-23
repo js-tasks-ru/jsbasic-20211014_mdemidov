@@ -4,10 +4,10 @@ export default class Modal {
   constructor() {
     this.elem = document.createElement('div');
     this.render();
-    this.open();
-    this.setTitle();
-    this.setBody();
-    this.close();
+    //this.open();
+    // this.setTitle();
+    // this.setBody();
+    // this.close();
 
   }
 
@@ -38,12 +38,27 @@ export default class Modal {
     this.modalInner.append(modalHeader);
 
     this.modalBody = document.createElement('div');
+    this.modalBody.classList.add('modal__body');
 
   }
 
   open() {
     document.body.append(this.elem);
     document.body.classList.add('is-modal-open');
+
+    let close = this.elem.querySelector('.modal__close');
+
+    close.onclick = () => {
+      this.close();
+    };
+
+    let closeModalWindow = (event) => {
+      if (event.code !== 'Escape') return;
+      this.elem.remove();
+      document.body.classList.remove('is-modal-open');
+    };
+
+    document.addEventListener('keydown', closeModalWindow);
   }
 
   setTitle(title) {
@@ -51,33 +66,19 @@ export default class Modal {
     modalTitle.innerHTML = title;
   }
 
-  setBody(node = createElement('<div>Заголовок</div>')) {
+  setBody(node) {
 
-    this.modalBody.classList.add('modal__body');
     this.modalInner.append(this.modalBody);
-    this.modalBody.innerHTML = node.innerHTML;
+    this.modalBody.append(node);
   }
 
   close() {
 
-    let close = this.elem.querySelector('.modal__close');
-
-    close.onclick = () => {
-      this.elem.remove();
-      document.body.className = '';
-
-    };
-
-    let closeModalWindow = (event) => {
-      if (event.code !== 'Escape') return;
-      this.elem.remove();
-      document.body.classList.remove('is-modal-open');
-
-    };
-
-    document.addEventListener('keydown', closeModalWindow, { once: true });
-
-    // document.removeEventListener('keydown', closeModalWindow);
+    if (!this.elem) {
+      return;
+    }
+    this.elem.remove();
+    document.body.classList.remove('is-modal-open');
 
   }
 
