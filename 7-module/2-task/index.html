@@ -17,15 +17,16 @@
 
     window.openModal = () => {
       let modal = new Modal();
-      modal.setTitle('Modal Title');
+      modal.setTitle('Я главное модальное окно');
       modal.setBody(createElement('<div>Тело модального окна</div>'));
 
       modal.open();
+
     }
   </script>
 
   <div class="container">
-    <button class='button' onclick="openModal()" style="background: white; color: black;padding: 10px">
+    <button class="button" onclick="openModal()" style="background: white; color: black;padding: 10px">
       Нажми меня, чтобы открыть модальное окно
     </button>
   </div>

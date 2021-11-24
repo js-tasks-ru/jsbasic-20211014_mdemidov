@@ -48,7 +48,7 @@ export default class Carousel {
             </button>
           </div>
         </div>
-      `)
+      `);
       wrapper.append(slide);
     }
 
@@ -67,10 +67,6 @@ export default class Carousel {
       detail: this.id
     });
     this.elem.dispatchEvent(addToCart);
-
-
-
-
 
     return this.id;
   }
@@ -93,15 +89,15 @@ export default class Carousel {
 
         slides.forEach(() => wrapper.style.transform = `translateX(${-shift}px)`);
 
-      };
+      }
 
       if (target == arrowLeft) {
 
         shift -= wrapper.offsetWidth;
 
-        slides.forEach(() => wrapper.style.transform = `translateX(${- shift}px)`);
+        slides.forEach(() => wrapper.style.transform = `translateX(${-shift}px)`);
 
-      };
+      }
 
 
       if (wrapper.style.transform != `translateX(0px)`) {
