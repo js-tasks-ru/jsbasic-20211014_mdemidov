@@ -3,7 +3,7 @@ import createElement from '../../assets/lib/create-element.js';
 export default class RibbonMenu {
   constructor(categories) {
     this.categories = categories;
-    this.elem = document.createElement('div');
+
     this.render();
     this.scrollMenu();
     this.elem.addEventListener('click', this.onClick);
@@ -11,6 +11,7 @@ export default class RibbonMenu {
 
   render() {
 
+    this.elem = document.createElement('div');
     this.elem.classList.add('ribbon');
     let arrowLeft = createElement(`
       <button class="ribbon__arrow ribbon__arrow_left">
