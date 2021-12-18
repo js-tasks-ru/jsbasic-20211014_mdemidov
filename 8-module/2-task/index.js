@@ -6,63 +6,60 @@ export default class ProductGrid {
     this.products = products;
     this.filters = {};
     this.eventListener();
-    this.render();
+    this.render(products);
+
   }
 
-  render() {
+  render(products) {
 
-    this.elem = document.createElement('div');
-    this.elem.classList.add('products-grid');
-    this.cardInner = document.createElement('div');
-    this.cardInner.classList.add('products-grid__inner');
-    this.elem.append(this.cardInner);
+    this.elem = createElement(`
+        <div class="products-grid">
+          <div class="products-grid__inner">
 
-    this.products.forEach((item) => {
+
+          </div>
+        </div>
+      `
+    );
+
+    this.cardInner = this.elem.querySelector('.products-grid__inner');
+
+    products.forEach((item) => {
       this.card = new ProductCard(item);
       this.cardInner.append(this.card.elem);
     });
 
   }
 
-  updateFilter = (filters) => {
+  updateFilter(filters) {
+
+    Object.assign(this.filters, filters);
 
     let filterList = this.products;
-    filters = this.tuneFilters();
 
-    if (filters.noNuts == true) {
+    if (this.filters.noNuts == true) {
       filterList = filterList.filter(item => !item.nuts == true);
-      this.cardInner.remove();
-    } else {
-      filterList = this.products;
-      this.cardInner.remove();
     }
 
-    if (filters.vegeterianOnly == true) {
+    if (this.filters.vegeterianOnly == true) {
       filterList = filterList.filter(item => item.vegeterian == true);
-      this.cardInner.remove();
-    } else {
-      filterList = filterList;
-      this.cardInner.remove();
     }
 
-    if (filters.maxSpiciness == 2) {
+    if (this.filters.maxSpiciness == 2) {
       filterList = filterList.filter(item => item.spiciness <= 2);
-      this.cardInner.remove();
-    } else {
-      filterList = filterList;
-      this.cardInner.remove();
     }
 
-    if (filters.category == 'soups') {
+    if (this.filters.category == 'soups') {
       filterList = filterList.filter(item => item.category == 'soups');
-      this.cardInner.remove();
-    } else {
-      filterList = filterList;
-      this.cardInner.remove();
     }
 
-    console.log(filterList)
+    this.changeList(filterList);
 
+  }
+
+
+  changeList(filterList) {
+    this.cardInner.remove();
     this.cardInner = document.createElement('div');
     this.cardInner.classList.add('products-grid__inner');
     this.elem.append(this.cardInner);
@@ -71,7 +68,6 @@ export default class ProductGrid {
       this.card = new ProductCard(item);
       this.cardInner.append(this.card.elem);
     });
-
   }
 
   eventListener() {
@@ -80,41 +76,6 @@ export default class ProductGrid {
     );
   }
 
-  tuneFilters() {
-
-    let noNutsControl = document.querySelector('[data-no-nuts]');
-
-    if (noNutsControl.checked == true) {
-      this.filters.noNuts = true;
-    } else {
-      this.filters.noNuts = false;
-    }
-
-    let vegetarianOnlyControl = document.querySelector('[data-vegetarian-only]');
-
-    if (vegetarianOnlyControl.checked == true) {
-      this.filters.vegeterianOnly = true;
-    } else {
-      this.filters.vegeterianOnly = false;
-    }
-
-    let maxSpicinessControl = document.querySelector('[data-max-spiciness]');
-    if (maxSpicinessControl.checked == true) {
-      this.filters.maxSpiciness = 2;
-    } else {
-      this.filters.maxSpiciness = 4;
-    }
-
-    let categoryControl = document.querySelector('[data-category]');
-
-    if (categoryControl.checked == true) {
-      this.filters.category = 'soups';
-    } else {
-      this.filters.category = '';
-    }
-
-    return this.filters;
-  }
 }
 
 
