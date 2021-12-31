@@ -1,128 +1,142 @@
-import createElement from '../../assets/lib/create-element.js';
-
 export default class StepSlider {
   constructor({ steps, value = 0 }) {
+
     this.steps = steps;
-    this.segments = steps - 1;
+    this.segment = this.steps - 1;
     this.render();
+    this.sliderValue();
+    this.eventListener();
 
-    this.addEventListeners();
-
-    this.setValue(value);
   }
 
   render() {
-    this.elem = createElement(`
-      <div class="slider">
-        <div class="slider__thumb">
-          <span class="slider__value"></span>
-        </div>
-        <div class="slider__progress"></div>
-        <div class="slider__steps">
-          ${'<span></span>'.repeat(this.steps)}
-        </div>
+    this.elem = document.createElement('div');
+    this.elem.classList.add('slider');
+
+    this.elem.insertAdjacentHTML('afterbegin',
+      `<div class="slider__thumb" style="left: 0%;">
+        <span class="slider__value">0</span>
       </div>
+
+      <div class="slider__progress" style="width: 0%;"></div>
     `);
-  }
 
-  setValue(value) {
-    this.value = value;
+    this.sliderSteps = document.createElement('div');
+    this.sliderSteps.classList.add('slider__steps');
+    this.elem.append(this.sliderSteps);
 
-    let valuePercents = (value / this.segments) * 100;
-
-    this.sub('thumb').style.left = `${valuePercents}%`;
-    this.sub('progress').style.width = `${valuePercents}%`;
-
-    this.sub('value').innerHTML = value;
-
-    if (this.sub('step-active')) {
-      this.sub('step-active').classList.remove('slider__step-active');
+    for (let i = 0; i < this.steps; i++) {
+      let interval = document.createElement('span');
+      if (i == 0) {
+        interval.classList.add('slider__step-active');
+      }
+      this.sliderSteps.append(interval);
     }
 
-    this.sub('steps').children[this.value].classList.add('slider__step-active');
   }
 
-  addEventListeners() {
-    this.sub('thumb').ondragstart = () => false;
+  sliderValue(value = 0) {
+    this.value = value;
 
-    this.sub('thumb').onpointerdown = this.onPointerDown;
+    let valueSlaider = this.elem.querySelector('.slider__value');
+    let sliderProgress = this.elem.querySelector('.slider__progress');
+    let thumb = this.elem.querySelector('.slider__thumb');
+    let intervals = this.sliderSteps.querySelectorAll('span');
 
+    let persent = (value / this.segment) * 100;
+
+    sliderProgress.style.width = `${persent}%`;
+    thumb.style.left = `${persent}%`;
+
+    for (let interval of intervals) {
+      interval.classList.remove('slider__step-active');
+    }
+
+    valueSlaider.textContent = this.value;
+    intervals[this.value].classList.add('slider__step-active');
+
+  }
+
+  onClick = (event) => {
+
+    let newPersent = (event.clientX - this.elem.getBoundingClientRect().left) / this.elem.offsetWidth;
+
+    this.sliderValue(Math.round(newPersent * this.segment));
+
+    this.elem.dispatchEvent(new CustomEvent('slider-change', {
+      bubbles: true,
+      detail: this.value
+    }));
+  }
+
+
+  eventListener() {
+    let thumb = this.elem.querySelector('.slider__thumb');
+
+    thumb.ondragstart = () => false;
+    thumb.onselectstart = () => false;
+
+    thumb.onpointerdown = this.onPointerdown;
     this.elem.onclick = this.onClick;
   }
 
-  onClick = event => {
-    let newLeft = (event.clientX - this.elem.getBoundingClientRect().left) / this.elem.offsetWidth;
+  onPointerdown = (event) => {
 
-    this.setValue(Math.round(this.segments * newLeft));
+    event.preventDefault();
+    //thumb.setPointerCapture(event.pointerId);
+    document.addEventListener('pointermove', this.sliderMove);
+    document.addEventListener('pointerup', this.sliderStop);
 
-    this.elem.dispatchEvent(
-      new CustomEvent('slider-change', {
-        detail: this.value,
-        bubbles: true
-      })
-    );
   }
 
-  onPointerDown = event => {
+  sliderMove = (event) => {
+
     event.preventDefault();
 
-    this.elem.classList.add('slider_dragging');
+    let sliderProgress = this.elem.querySelector('.slider__progress');
+    let thumb = this.elem.querySelector('.slider__thumb');
+    let valueSlaider = this.elem.querySelector('.slider__value');
 
-    document.addEventListener('pointermove', this.onPointerMove);
-    document.addEventListener('pointerup', this.onPointerUp);
-  }
+    let newPersent = (event.clientX - this.elem.getBoundingClientRect().left) / this.elem.offsetWidth;
 
-  onPointerMove = event => {
-    event.preventDefault();
-
-    let newLeft = this.calcLeftByEvent(event);
-
-    this.sub('thumb').style.left = `${newLeft * 100}%`;
-    this.sub('progress').style.width = `${newLeft * 100}%`;
-
-    // Show the nearest value
-    // First half of step is 1, et
-    // |-------|-------|-------|-------|
-    // | 1 /   2   /   3   /   4   / 5 |
-    this.value = Math.round(this.segments * newLeft);
-    this.sub('value').innerHTML = this.value;
-
-    if (this.sub('step-active')) {
-      this.sub('step-active').classList.remove('slider__step-active');
+    if (newPersent < 0) {
+      newPersent = 0;
     }
 
-    this.sub('steps').children[this.value].classList.add('slider__step-active');
+    if (newPersent > 1) {
+      newPersent = 1;
+    }
+
+    let persent = (newPersent) * 100;
+
+    this.value = Math.round(newPersent * this.segment);
+
+    valueSlaider.textContent = this.value;
+    sliderProgress.style.width = `${persent}%`;
+    thumb.style.left = `${persent}%`;
+
+    this.elem.classList.add('slider_dragging');
   };
 
-  calcLeftByEvent(event) {
-    let newLeft = (event.clientX - this.elem.getBoundingClientRect().left) / this.elem.offsetWidth;
-
-    if (newLeft < 0) { newLeft = 0; }
-    if (newLeft > 1) { newLeft = 1; }
-
-    return newLeft;
-  }
-
-  onPointerUp = () => {
-    document.removeEventListener('pointermove', this.onPointerMove);
-    document.removeEventListener('pointerup', this.onPointerUp);
-
+  sliderStop = () => {
+    document.removeEventListener('pointermove', this.sliderMove);
+    document.removeEventListener('pointerup', this.sliderStop);
     this.elem.classList.remove('slider_dragging');
 
-    // stick to the final value
-    this.sub('thumb').style.left = `${(this.value / this.segments) * 100}%`;
-    this.sub('progress').style.width = `${(this.value / this.segments) * 100}%`;
+    let sliderProgress = this.elem.querySelector('.slider__progress');
+    let thumb = this.elem.querySelector('.slider__thumb');
 
-    this.elem.dispatchEvent(
-      new CustomEvent('slider-change', {
-        detail: this.value,
-        bubbles: true
-      })
-    );
+    let persent = (this.value / this.segment) * 100;
+
+    sliderProgress.style.width = `${persent}%`;
+    thumb.style.left = `${persent}%`;
+
+    console.log(persent)
+
+    this.elem.dispatchEvent(new CustomEvent('slider-change', {
+      bubbles: true,
+      detail: this.value
+    }));
   };
-
-  sub(ref) {
-    return this.elem.querySelector(`.slider__${ref}`);
-  }
 
 }
