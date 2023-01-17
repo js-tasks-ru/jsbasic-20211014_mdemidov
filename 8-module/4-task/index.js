@@ -9,34 +9,75 @@ export default class Cart {
   constructor(cartIcon) {
     this.cartIcon = cartIcon;
 
+    this.renderModal()
+
     this.addEventListeners();
   }
 
   addProduct(product) {
-    // СКОПИРУЙТЕ СЮДЯ СВОЙ КОД
+    // ваш код
+    let cartItem = this.cartItems.find(item => item.product.id == product.id);
+
+    if (!cartItem) {
+      this.cartItems.push({
+        product,
+        count: 1
+      });
+    }
+    else {
+      cartItem.count++;
+    }
+
+    this.onProductUpdate(cartItem);
+
   }
 
   updateProductCount(productId, amount) {
-    // СКОПИРУЙТЕ СЮДЯ СВОЙ КОД
+    // ваш код
+    let cartItem = this.cartItems.find(item => item.product.id == productId);
+
+    console.log(cartItem)
+
+    cartItem.count += amount;
+
+    if (cartItem.count == 0) {
+      console.log(123)
+      this.cartItems.splice(this.cartItems.indexOf(cartItem), 1);
+    }
+    this.onProductUpdate(cartItem);
   }
 
   isEmpty() {
-    // СКОПИРУЙТЕ СЮДЯ СВОЙ КОД
+    // ваш код
+    return this.cartItems.length === 0;
   }
 
   getTotalCount() {
-    // СКОПИРУЙТЕ СЮДЯ СВОЙ КОД
+    // ваш код
+    let totalCount = 0;
+    this.cartItems.forEach((item) => {
+      totalCount += item.count;
+    });
+
+    return totalCount;
   }
 
   getTotalPrice() {
-    // СКОПИРУЙТЕ СЮДЯ СВОЙ КОД
+    // ваш код
+    let totalPrice = 0;
+    this.cartItems.forEach((item) => {
+      let quantity = item.count;
+      let price = item.product.price;
+      let itemCost = quantity * price;
+      totalPrice += itemCost;
+    });
+
+    return totalPrice;
   }
 
   renderProduct(product, count) {
     return createElement(`
-    <div class="cart-product" data-product-id="${
-      product.id
-    }">
+    <div class="cart-product" data-product-id="${product.id}">
       <div class="cart-product__img">
         <img src="/assets/images/products/${product.image}" alt="product">
       </div>
@@ -73,9 +114,7 @@ export default class Cart {
         <div class="cart-buttons__buttons btn-group">
           <div class="cart-buttons__info">
             <span class="cart-buttons__info-text">total</span>
-            <span class="cart-buttons__info-price">€${this.getTotalPrice().toFixed(
-              2
-            )}</span>
+            <span class="cart-buttons__info-price">€${this.getTotalPrice().toFixed(2)}</span>
           </div>
           <button type="submit" class="cart-buttons__button btn-group__button button">order</button>
         </div>
@@ -85,6 +124,29 @@ export default class Cart {
 
   renderModal() {
     // ...ваш код
+    this.modal = new Modal();
+    this.modal.setTitle('Your order');
+    this.modalBody = document.createElement('div');
+
+    for (let { product, count } of this.cartItems) {
+      this.modalBody.append(this.renderProduct(product, count));
+    }
+
+    this.modalBody.append(this.renderOrderForm());
+
+    this.modalBody.addEventListener("click", this.onModalBodyClick);
+
+    this.modalBody.querySelector("form").onsubmit = (event) => this.onSubmit(event);
+
+    this.modal.setBody(this.modalBody);
+
+    this.modal.elem.addEventListener('modal-close', () => {
+      this.modal = null;
+      this.modalBody = null;
+    });
+
+    this.modal.open();
+
   }
 
   onProductUpdate(cartItem) {

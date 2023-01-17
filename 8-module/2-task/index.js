@@ -6,7 +6,7 @@ export default class ProductGrid {
     this.products = products;
     this.filters = {};
     this.eventListener();
-    this.render(products);
+    this.render(this.products);
 
   }
 
@@ -14,24 +14,29 @@ export default class ProductGrid {
 
     this.elem = createElement(`
         <div class="products-grid">
-          <div class="products-grid__inner">
 
-
-          </div>
-        </div>
+        </div >
       `
     );
 
-    this.cardInner = this.elem.querySelector('.products-grid__inner');
+    this.cardInner = document.createElement('div');
+    this.cardInner.classList.add('products-grid__inner');
+    this.elem.append(this.cardInner);
+
+    //this.cardInner = this.elem.querySelector('.products-grid__inner');
 
     products.forEach((item) => {
       this.card = new ProductCard(item);
       this.cardInner.append(this.card.elem);
+
     });
+
+
+
 
   }
 
-  updateFilter(filters) {
+  updateFilter = (filters) => {
 
     Object.assign(this.filters, filters);
 
@@ -52,11 +57,10 @@ export default class ProductGrid {
     if (this.filters.category == 'soups') {
       filterList = filterList.filter(item => item.category == 'soups');
     }
-
+    //this.cardInner.remove();
     this.changeList(filterList);
-
+    //this.render(filterList);
   }
-
 
   changeList(filterList) {
     this.cardInner.remove();

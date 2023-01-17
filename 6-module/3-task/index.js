@@ -25,6 +25,8 @@ export default class Carousel {
       </div>
     `);
 
+
+
     arrowLeft.style.display = 'none';
 
     this.elem.append(arrowRight);
@@ -52,6 +54,8 @@ export default class Carousel {
       wrapper.append(slide);
     }
 
+    return wrapper;
+
   }
 
   onClick = (event) => {
@@ -73,22 +77,68 @@ export default class Carousel {
 
   slidesScroll() {
     let wrapper = this.elem.querySelector('.carousel__inner');
-    let slides = wrapper.querySelectorAll('.carousel__slide');
+    let slides = Array.from(wrapper.querySelectorAll('.carousel__slide'));
     let slidesLength = slides.length;
     let arrowRight = this.elem.querySelector('.carousel__arrow_right');
     let arrowLeft = this.elem.querySelector('.carousel__arrow_left');
-
     let shift = 0;
+    let slidesAutoScroll;
+    let elem = this.elem;
+    let arr = this.slides;
+
+    for (let i = 0; i < slides.length; i++) {
+      slides[i].style.position = 'absolute';
+      slides[i].style.top = '0';
+      slides[i].style.left = `${988}px`;
+      if (i == 0) {
+        slides[i].style.left = `${0}px`;
+      }
+    }
+
+    function autoScroll(shift) {
+      let i = 0;
+
+      slidesAutoScroll = setInterval(() => {
+        slides = Array.from(wrapper.querySelectorAll('.carousel__slide'));
+        shift = wrapper.offsetWidth;
+
+        if (i == arr.length - 1) {
+          for (let i = 0; i < arr.length - 1; i++) {
+            slides[i].style.left = `${shift}px`;
+          }
+          slides[i].style.zIndex = '0';
+
+          i = 0;
+
+          setTimeout(() => {
+            slides[i].style.left = `0`;
+            slides[i].style.zIndex = '1';
+          }, 500);
+        }
+        else {
+          slides[arr.length - 1].style.left = `${shift}px`;
+          slides[i + 1].style.left = '0';
+          slides[i + 1].style.zIndex = '1';
+          slides[i].style.zIndex = '0';
+          i++;
+        }
+      }, 3000);
+    }
+
+    autoScroll(shift);
 
     this.elem.addEventListener('click', function (event) {
       let target = event.target.closest('div');
+      clearInterval(slidesAutoScroll);
+      shift += wrapper.offsetWidth;
+      console.log(target.dataset.id);
+
 
       if (target == arrowRight) {
 
         shift += wrapper.offsetWidth;
 
         slides.forEach(() => wrapper.style.transform = `translateX(${-shift}px)`);
-
       }
 
       if (target == arrowLeft) {
@@ -96,9 +146,7 @@ export default class Carousel {
         shift -= wrapper.offsetWidth;
 
         slides.forEach(() => wrapper.style.transform = `translateX(${-shift}px)`);
-
       }
-
 
       if (wrapper.style.transform != `translateX(0px)`) {
         arrowLeft.style.display = '';
@@ -117,10 +165,14 @@ export default class Carousel {
       if (wrapper.style.transform == `translateX(0px)`) {
         arrowLeft.style.display = 'none';
         arrowRight.style.display = '';
-
       }
+      console.log(shift)
 
+      setTimeout(() => {
+        autoScroll(shift);
+      }, 8000);
     });
+
 
   }
 
